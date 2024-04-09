@@ -202,6 +202,41 @@ In this example:
 - `promise3` is resolved after a delay with the value `'Delayed value'`.
 - `Promise.allSettled()` waits for all promises to settle and then logs the status and value/reason of each promise.
 
+### Promise.race():
+
+`Promise.race()` is a static method in JavaScript's Promise API. It accepts an iterable (such as an array) of promises as input and returns a single promise that resolves or rejects as soon as one of the promises in the iterable settles (either fulfills or rejects).
+
+The returned promise settles in one of the following ways:
+
+- If any promise in the iterable fulfills (i.e., resolves), the returned promise resolves with the value of the first fulfilled promise.
+- If any promise in the iterable rejects, the returned promise rejects with the reason of the first rejected promise.
+
+```javascript
+const promise1 = new Promise((resolve) => setTimeout(resolve, 1000, 'Promise 1 resolved'));
+const promise2 = new Promise((resolve, reject) => setTimeout(reject, 500, new Error('Promise 2 rejected')));
+
+Promise.race([promise1, promise2])
+  .then((result) => {
+    console.log('First settled promise:', result);
+  })
+  .catch((error) => {
+    console.error('First settled promise rejected with error:', error);
+  });
+
+```
+
+**Output (after 500 milliseconds):**
+
+```javascript
+First settled promise rejected with error: Error: Promise 2 rejected
+```
+
+In this example:
+
+- `promise1` is resolved after 1000 milliseconds with the value `'Promise 1 resolved'`.
+- `promise2` is rejected after 500 milliseconds with an error message.
+- `Promise.race()` fulfills as soon as one of the promises fulfills or rejects. Since `promise2` rejects before `promise1` resolves, the returned promise rejects with the reason of `promise2`, which is the error `'Promise 2 rejected'`.
+
 ### Promise.any():
 
 avaScript's Promise API includes a static method called `Promise.any()`, which returns a single promise that fulfills as soon as one of the promises in the iterable fulfills, or rejects if all of the promises in the iterable reject.
