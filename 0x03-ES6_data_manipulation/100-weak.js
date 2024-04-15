@@ -6,10 +6,10 @@ export function queryAPI(endpoint) {
     weakMap.set(endpoint, 0);
   }
 
+  // Increment the call count for the function
+  weakMap.set(endpoint, weakMap.get(endpoint) + 1);
+
   if (weakMap.get(endpoint) >= 5) {
     throw new Error('Endpoint load is high');
   }
-
-  // Increment the call count for the function
-  weakMap.set(endpoint, weakMap.get(endpoint) + 1);
 }
