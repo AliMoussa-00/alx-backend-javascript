@@ -6,15 +6,15 @@
  * @return {string} - return a string
  */
 export default function cleanSet(set, startString) {
-	if (startString === '') {
-		return '';
-	}
+  if (startString === '') {
+    return '';
+  }
 
-	// I can't use map on set so I will use 'Array.from'
-	// since 'startString' always at the beginning I will only pass the length of 'startString'
-	const arrayString = Array.from(set)
-		.filter((fullString) => fullString.includes(startString))
-		.map((fullString) => fullString.slice(startString.length));
+  // I can't use map on set so I will use 'Array.from'
+  // since 'startString' always at the beginning I will only pass the length of 'startString'
+  const arrayString = Array.from(set)
+    .filter((fullString) => fullString.includes(startString))
+    .map((fullString) => fullString.slice(startString.length));
 
-	return arrayString.join('-');
+  return arrayString.join('-');
 }

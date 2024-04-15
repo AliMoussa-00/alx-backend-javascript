@@ -4,5 +4,5 @@
  * @return {set} - return a set
  */
 export default function setFromArray(elements) {
-	return new Set(elements);
+  return new Set(elements);
 }

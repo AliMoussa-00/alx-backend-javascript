@@ -4,12 +4,11 @@
  * @returns {array} - empty array or array of ids from a list of object
  */
 export default function getListStudentIds(listStudents) {
+  if (!Array.isArray(listStudents)) {
+    return [];
+  }
 
-	if (!Array.isArray(listStudents)) {
-		return [];
-	}
+  const ids = listStudents.map((student) => student.id);
 
-	const ids = listStudents.map((student) => student.id);
-
-	return ids;
+  return ids;
 }
