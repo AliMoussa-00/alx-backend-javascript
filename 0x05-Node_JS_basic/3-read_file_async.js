@@ -7,7 +7,7 @@ async function countStudents(path) {
     const header = lines.shift();
 
     if (!header) {
-      return 'Number of students: 0';
+      console.log('Number of students: 0');
     }
 
     const students = {};
@@ -30,7 +30,7 @@ async function countStudents(path) {
       text += `\nNumber of students in ${field}: ${names.length}. List: ${names.join(', ')}`;
     }
 
-    return text;
+    console.log(text);
   } catch (err) {
     throw new Error('Cannot load the database');
   }
