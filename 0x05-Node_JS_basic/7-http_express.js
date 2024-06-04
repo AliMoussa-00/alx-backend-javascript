@@ -49,10 +49,10 @@ app.get('/', (req, res) => {
 
 app.get('/students', async (req, res) => {
   const path = args[2];
-
+  res.write('This is the list of our students\n');
   try {
     const students = await countStudents(path);
-    res.send(`This is the list of our students\n${students}`);
+    res.send(students);
   } catch (err) {
     res.status = 500;
     res.send(err.message);
