@@ -9,10 +9,6 @@ async function countStudents(path) {
     const lines = data.trim().split('\n');
     lines.shift();
 
-    const header = data.split('\n').slice(0, 1)[0].split(',');
-    if (!header) {
-      return 'Number of students: 0';
-    }
     const students = {};
     let totalStudents = 0;
 
