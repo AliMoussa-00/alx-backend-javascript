@@ -1,8 +1,6 @@
 const http = require('http');
 const fs = require('fs').promises;
 
-const args = process.argv;
-
 async function countStudents(path) {
   try {
     const data = await fs.readFile(path, 'utf8');
