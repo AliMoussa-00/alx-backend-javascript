@@ -38,23 +38,19 @@ async function countStudents(path) {
 }
 
 const app = http.createServer(async (req, res) => {
-  if (req.url === '/') {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello Holberton School!');
-  } else if (req.url === '/students') {
-    const path = args[2];
-    try {
-      const studentList = await countStudents(path);
-      res.writeHead(200, { 'Content-Type': 'text/plain' });
-      res.end(`This is the list of our students\n${studentList}`);
-    } catch (err) {
-      res.writeHead(500, { 'Content-Type': 'text/plain' });
-      res.end(err.message);
-    }
-  } else {
-    res.statusCode = 404;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Not Found');
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  if (req.url === '/') res.end('Hello Holberton School!');
+  if (req.url === '/students') {
+    res.write('This is the list of our students\n');
+    countStudents(process.argv[2])
+      .then((data) => {
+        res.write(data);
+        res.end();
+      })
+      .catch((err) => {
+        res.end(err.message);
+      });
   }
 });
 
