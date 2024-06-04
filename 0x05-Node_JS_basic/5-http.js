@@ -6,7 +6,8 @@ const args = process.argv;
 async function countStudents(path) {
   try {
     const data = await fs.readFile(path, 'utf8');
-    const lines = data.split('\n').slice(1, -1);
+    const lines = data.trim().split('\n');
+    lines.shift();
 
     const header = data.split('\n').slice(0, 1)[0].split(',');
     if (!header) {
@@ -41,17 +42,23 @@ async function countStudents(path) {
 }
 
 const app = http.createServer(async (req, res) => {
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
   if (req.url === '/') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
     const path = args[2];
     try {
       const studentList = await countStudents(path);
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
       res.end(`This is the list of our students\n${studentList}`);
     } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
       res.end(err.message);
     }
+  } else {
+    res.statusCode = 404;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Not Found');
   }
 });
 
