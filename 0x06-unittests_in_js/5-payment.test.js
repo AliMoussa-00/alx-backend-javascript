@@ -1,7 +1,8 @@
-import sinon from 'sinon';
-import { expect } from 'chai';
-import sendPaymentRequestToApi from './3-payment.js';
-import Utils from './utils.js';
+const sinon = require('sinon');
+const { expect } = require('chai');
+
+const sendPaymentRequestToApi = require('./5-payment');
+const Utils = require('./utils');
 
 describe('5-hooks', () => {
   let spyConsole;

@@ -1,7 +1,8 @@
-import sinon from 'sinon';
-import { expect } from 'chai';
-import sendPaymentRequestToApi from './3-payment.js';
-import Utils from './utils.js';
+const sinon = require('sinon');
+const { expect } = require('chai');
+
+const sendPaymentRequestToApi = require('./4-payment');
+const Utils = require('./utils');
 
 describe('sendPaymentRequestToApi', () => {
   it('the math used for sendPaymentRequestToApi is the same as Utils.calculateNumber', () => {

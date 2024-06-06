@@ -1,5 +1,5 @@
-import { expect } from 'chai';
-import calculateNumber from './2-calcul_chai.js';
+const chai = require('chai');
+const calculateNumber = require('./2-calcul_chai');
 
 describe('calculateNumber', () => {
   it('should return 5 when inputs are 1.4 and 3.5 with type "SUM"', () => {

@@ -4,4 +4,4 @@ const getPaymentTokenFromAPI = (success) => {
   }
 };
 
-export default getPaymentTokenFromAPI;
+module.exports = getPaymentTokenFromAPI;
