@@ -1,71 +1,53 @@
 const request = require('request');
 const { expect } = require('chai');
 
-const baseUrl = 'http://localhost:7865';
+describe('API integration test', () => {
+  const API_URL = 'http://localhost:7865';
 
-describe('Express Routes', () => {
-  describe('GET /', () => {
-    it('should return Welcome to the payment system', (done) => {
-      request.get(`${baseUrl}/`, (error, response, body) => {
-        expect(response.statusCode).to.equal(200);
-        expect(body).to.equal('Welcome to the payment system');
-        done();
-      });
+  it('GET / returns correct response', (done) => {
+    request.get(`${API_URL}/`, (_err, res, body) => {
+      expect(res.statusCode).to.be.equal(200);
+      expect(body).to.be.equal('Welcome to the payment system');
+      done();
     });
   });
 
-  describe('GET /cart/:id', () => {
-    it('should return Payment methods for cart 123', (done) => {
-      request.get(`${baseUrl}/cart/123`, (error, response, body) => {
-        expect(response.statusCode).to.equal(200);
-        expect(body).to.equal('Payment methods for cart 123');
-        done();
-      });
-    });
-
-    it('should return Payment methods for cart 456', (done) => {
-      request.get(`${baseUrl}/cart/456`, (error, response, body) => {
-        expect(response.statusCode).to.equal(200);
-        expect(body).to.equal('Payment methods for cart 456');
-        done();
-      });
-    });
-
-    it('should return 404 Not Found for invalid cart id', (done) => {
-      request.get(`${baseUrl}/cart/abc`, (error, response, body) => {
-        expect(response.statusCode).to.equal(404);
-        done();
-      });
+  it('GET /cart/:id returns correct response for valid :id', (done) => {
+    request.get(`${API_URL}/cart/47`, (_err, res, body) => {
+      expect(res.statusCode).to.be.equal(200);
+      expect(body).to.be.equal('Payment methods for cart 47');
+      done();
     });
   });
 
-  describe('GET /available_payments', () => {
-    it('should return available payment methods', (done) => {
-      request.get(`${baseUrl}/available_payments`, (error, response, body) => {
-        expect(response.statusCode).to.equal(200);
-        const parsedBody = JSON.parse(body);
-        expect(parsedBody.payment_methods.credit_cards).to.be.true;
-        expect(parsedBody.payment_methods.paypal).to.be.false;
-        done();
-      });
+  it('GET /cart/:id returns 404 response for negative number values in :id', (done) => {
+    request.get(`${API_URL}/cart/-47`, (_err, res, _body) => {
+      expect(res.statusCode).to.be.equal(404);
+      done();
     });
   });
 
-  describe('POST /login', () => {
-    it('should return a welcome message with username', (done) => {
-      const userName = 'testUser';
-      request.post(
-        {
-          url: `${baseUrl}/login`,
-          json: true, // Set json option to true to send/receive JSON data
-          body: { userName }, // Send JSON body
-        },
-        (error, response, body) => {
-          expect(response.statusCode).to.equal(200);
-          expect(body).to.equal(`Welcome ${userName}`);
-          done();
-        },
-      );
+  it('GET /cart/:id returns 404 response for non-numeric values in :id', (done) => {
+    request.get(`${API_URL}/cart/d200-44a5-9de6`, (_err, res, _body) => {
+      expect(res.statusCode).to.be.equal(404);
+      done();
+    });
+  });
+
+  it('POST /login returns valid response', (done) => {
+    request.post(`${API_URL}/login`, {json: {userName: 'user'}}, (_err, res, body) => {
+      expect(res.statusCode).to.be.equal(200);
+      expect(body).to.be.equal('Welcome user');
+      done();
+    });
+  });
+
+  it('GET /available_payments returns valid response', (done) => {
+    request.get(`${API_URL}/available_payments`, (_err, res, body) => {
+      expect(res.statusCode).to.be.equal(200);
+      expect(JSON.parse(body))
+        .to.be.deep.equal({payment_methods: {credit_cards: true, paypal: false}});
+      done();
     });
   });
 });
