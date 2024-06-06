@@ -1,4 +1,4 @@
-import Utils from './utils.js';
+const Utils = require('./utils');
 
 const sendPaymentRequestToApi = (totalAmount, totalShipping) => {
   console.log(
